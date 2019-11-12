@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { DtEventChartModule } from '@dynatrace/angular-components/event-chart';
+import { DtEventChartModule } from '@dynatrace/barista-components/event-chart';
 
 import { dispatchFakeEvent } from '../../testing/dispatch-events';
 import { DtEventChartSelectedEvent } from './event-chart-directives';
