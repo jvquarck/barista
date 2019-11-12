@@ -16,6 +16,7 @@
 
 import { AfterViewInit, Component } from '@angular/core';
 
+import { fillTableData } from '../../utils/fillTableData';
 import { BaPage } from '../page-outlet';
 import { BaRecentlyOrderedService } from '../../shared/recently-ordered.service';
 import { BaSinglePageContents } from '../../shared/page-contents';
@@ -39,5 +40,14 @@ export class BaSinglePage implements BaPage, AfterViewInit {
 
   ngAfterViewInit(): void {
     this._recentlyOrderedService.saveToLocalStorage(this.contents);
+
+    const allTables = Array.prototype.slice.call(
+      document.querySelectorAll('table'),
+    );
+
+    /** add data attributes to each table, so it can be displayed correctly on small screens */
+    for (const table of allTables) {
+      fillTableData(table);
+    }
   }
 }
