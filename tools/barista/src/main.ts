@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import { promises as fs, mkdirSync } from 'fs';
-import { dirname, join } from 'path';
-
-import { componentsBuilder } from './builder/components';
 import { BaPageBuildResult, BaPageBuilder } from './types';
+import { componentsBuilder } from './builder/components';
+import { dirname, join } from 'path';
+import { promises as fs, mkdirSync, readFileSync, readdirSync } from 'fs';
+
+import { BaOverviewPage } from '../../../apps/barista/src/shared/page-contents';
 
 // Add your page-builder to this map to register it.
 const BUILDERS = new Map<string, BaPageBuilder>([
@@ -59,9 +60,136 @@ async function buildPages(): Promise<void[]> {
   return Promise.all(files);
 }
 
+function getOverviewSectionItem(
+  filecontent: any,
+  category: string,
+  filepath: string,
+) {
+  return {
+    title: filecontent.title,
+    identifier:
+      filecontent.title && filecontent.title.length > 1
+        ? filecontent.title[0] + filecontent.title[1]
+        : 'Id',
+    description: filecontent.description,
+    category: category,
+    link: filepath,
+    badge: filecontent.properties,
+  };
+}
+
+/** Builds overview pages */
+async function buildOverviewPages(): Promise<void[]> {
+  const allDirectories = readdirSync(DIST_DIR);
+
+  const pages = allDirectories.map(async directory => {
+    const path = join(DIST_DIR, directory);
+
+    if (directory.indexOf('.') < 0 && directory !== 'components') {
+      const files = readdirSync(path);
+      const capitalizedTitle =
+        directory.charAt(0).toUpperCase() + directory.slice(1);
+      let overviewPage: BaOverviewPage = {
+        title: capitalizedTitle,
+        id: directory,
+        layout: 'overview',
+        sections: [
+          {
+            items: [],
+          },
+        ],
+      };
+
+      for (const file of files) {
+        const filepath = join(directory, file.replace(/\.[^/.]+$/, ''));
+        const content = JSON.parse(readFileSync(join(path, file)).toString());
+        overviewPage.sections[0].items.push(
+          getOverviewSectionItem(content, capitalizedTitle, filepath),
+        );
+      }
+
+      const overviewfilepath = join(DIST_DIR, `${directory}.json`);
+      // Write file with page content to disc.
+      // tslint:disable-next-line: no-magic-numbers
+      return fs.writeFile(
+        overviewfilepath,
+        JSON.stringify(overviewPage, null, 2),
+        {
+          flag: 'w', // "w" -> Create file if it does not exist
+          encoding: 'utf8',
+        },
+      );
+    } else if (directory.indexOf('.') < 0 && directory === 'components') {
+      const files = readdirSync(path);
+
+      let componentOverview: BaOverviewPage = {
+        title: 'Components',
+        id: 'components',
+        layout: 'overview',
+        description:
+          'Read all about development with/of our Angular components in how to get started. If you run into any troubles or want to contribute, please visit our GitHub page.',
+        sections: [
+          {
+            title: 'Documentation',
+            items: [],
+          },
+          {
+            title: 'Components',
+            items: [],
+          },
+          {
+            title: 'Other',
+            items: [],
+          },
+        ],
+      };
+
+      for (const file of files) {
+        const content = JSON.parse(readFileSync(join(path, file)).toString());
+        for (const section of componentOverview.sections) {
+          const filepath = join(directory, file.replace(/\.[^/.]+$/, ''));
+          if (
+            content.nav_group === 'docs' &&
+            section.title === 'Documentation'
+          ) {
+            section.items.push(
+              getOverviewSectionItem(content, section.title, filepath),
+            );
+          } else if (
+            content.nav_group === 'other' &&
+            section.title === 'Other'
+          ) {
+            section.items.push(
+              getOverviewSectionItem(content, section.title, filepath),
+            );
+          } else if (section.title === 'Components' && !content.nav_group) {
+            section.items.push(
+              getOverviewSectionItem(content, 'Component', filepath),
+            );
+          }
+        }
+      }
+
+      const overviewfilepath = join(DIST_DIR, `${directory}.json`);
+      // Write file with page content to disc.
+      // tslint:disable-next-line: no-magic-numbers
+      return fs.writeFile(
+        overviewfilepath,
+        JSON.stringify(componentOverview, null, 2),
+        {
+          flag: 'w', // "w" -> Create file if it does not exist
+          encoding: 'utf8',
+        },
+      );
+    }
+  });
+  return Promise.all(pages);
+}
+
 buildPages()
   .then(results => {
     console.log(`${results.length} Pages created.`);
+    buildOverviewPages();
   })
   .catch(err => {
     console.error(err);

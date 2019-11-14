@@ -24,6 +24,7 @@ import {
   transformPage,
   uxSlotTransformer,
 } from '../transform';
+
 import {
   BaPageBuildResult,
   BaPageBuilder,
@@ -70,7 +71,7 @@ function setMetadataDefaults(baristaMetadata: any): BaPageContent {
   return metadataWithDefaults;
 }
 
-/** Page-builder for angular component & documentation pages. */
+/** Page-builder for angular component pages. */
 export const componentsBuilder: BaPageBuilder = async (
   componentsPaths?: string[],
 ) => {
