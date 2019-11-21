@@ -21,6 +21,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { BaLocationService } from './location.service';
 import { BaSinglePageContents } from './page-contents';
+import { environment } from '../environments/environment';
 
 const CONTENT_PATH_PREFIX = 'data/';
 
@@ -60,7 +61,7 @@ export class BaPageService {
    * @param id - page id (path).
    */
   private _fetchPage(id: string): Observable<BaSinglePageContents> {
-    const requestPath = `${CONTENT_PATH_PREFIX}${id}.json`;
+    const requestPath = `${environment.datahost}${CONTENT_PATH_PREFIX}${id}.json`;
     const subject = new AsyncSubject<BaSinglePageContents>();
 
     this.http
