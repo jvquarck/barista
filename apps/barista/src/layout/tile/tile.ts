@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, Input, OnChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { BaOverviewPageSectionItem } from '../../shared/page-contents';
 
@@ -53,8 +53,10 @@ export class BaTile implements OnChanges {
     this._elementRef.nativeElement.focus();
   }
 
-  ngOnChanges(): void {
-    this._setBadge();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.data) {
+      this._setBadge();
+    }
   }
 
   /** if the tile has badge properties, only set one of the badge states to true, as only one state can be displayed */
