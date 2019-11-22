@@ -19,7 +19,10 @@ import { componentsBuilder } from './builder/components';
 import { dirname, join } from 'path';
 import { promises as fs, mkdirSync, readFileSync, readdirSync } from 'fs';
 
-import { BaOverviewPage, BaOverviewPageSectionItem } from '../../../apps/barista/src/shared/page-contents';
+import {
+  BaOverviewPage,
+  BaOverviewPageSectionItem,
+} from '../../../apps/barista/src/shared/page-contents';
 
 // Add your page-builder to this map to register it.
 const BUILDERS = new Map<string, BaPageBuilder>([

@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 import { BaOverviewPageSectionItem } from '../../shared/page-contents';
 
