@@ -45,7 +45,7 @@ export class BaSinglePage implements BaPage, AfterViewInit {
       document.querySelectorAll('table'),
     );
 
-    /** add data attributes to each table, so it can be displayed correctly on small screens */
+    /** Add data attributes to all tables, to apply responsive behaviour of the tables.* */
     for (const table of allTables) {
       fillTableData(table);
     }
