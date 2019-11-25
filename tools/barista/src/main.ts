@@ -177,7 +177,10 @@ async function buildOverviewPages(): Promise<void[]> {
       for (const section of componentOverview.sections) {
         if (section.title === 'Documentation') {
           const y = section.items;
-          y.sort(function (a: BaOverviewPageSectionItem, b: BaOverviewPageSectionItem): number {
+          y.sort(function(
+            a: BaOverviewPageSectionItem,
+            b: BaOverviewPageSectionItem,
+          ): number {
             if (a.order && b.order) {
               return a.order - b.order;
             }
