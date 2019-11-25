@@ -25,6 +25,7 @@ export interface BaIndexPageContents extends BaPageContents {
   subtitle: string;
   mostordered: BaIndexPageItem[];
   gettingstarted: BaIndexPageLink[];
+  cta: StrapiCTA;
 }
 
 export interface BaSinglePageContents extends BaPageContents {
@@ -69,7 +70,7 @@ export interface BaIndexPageLink {
   title: string;
   text: string;
   link: string;
-  bordercolor: string;
+  borderColor: string;
 }
 
 export interface BaIndexPageItem {
@@ -81,4 +82,11 @@ export interface BaIndexPageItem {
 
 export interface BaOverviewPageContents extends BaPageContents {
   sections: BaOverviewPageSection[];
+}
+
+export interface StrapiCTA {
+  title: string;
+  text: string;
+  buttontext: string;
+  buttonlink: string;
 }

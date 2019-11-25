@@ -23,7 +23,7 @@ export type BaPageBuilder = (...args: any[]) => Promise<BaPageBuildResult[]>;
 
 export interface BaPageBuildResult {
   relativeOutFile: string;
-  pageContent: BaPageContent;
+  pageContent: BaPageContent | BaIndexPageContent;
 }
 
 /** Structure of the generated JSON page output */
@@ -101,4 +101,36 @@ export interface BaStrapiSnippet extends BaStrapiBase {
 export enum StrapiContentType {
   Pages = 'pages',
   Snippets = 'snippets',
+  Pageteasers = 'pageteasers',
+  CTAs = 'ctas',
+}
+
+export interface StrapiPageLink {
+  title: string;
+  link: string;
+  category: string;
+}
+
+export interface StrapiPageTeaser extends BaStrapiBase {
+  title: string;
+  text: string;
+  link: string;
+  borderColor: string;
+}
+
+export interface StrapiCTA extends BaStrapiBase {
+  title: string;
+  text: string;
+  buttontext: string;
+  buttonlink: string;
+}
+
+// TODO: move to shared types
+export interface BaIndexPageContent {
+  title: string;
+  subtitle: string;
+  layout: 'index';
+  mostordered: StrapiPageLink[];
+  gettingstarted: StrapiPageTeaser[];
+  cta: StrapiCTA;
 }

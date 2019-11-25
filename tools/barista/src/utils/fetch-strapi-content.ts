@@ -15,7 +15,13 @@
  */
 
 import { request } from 'http';
-import { StrapiContentType, BaStrapiPage, BaStrapiSnippet } from '../types';
+import {
+  BaStrapiPage,
+  BaStrapiSnippet,
+  StrapiContentType,
+  StrapiCTA,
+  StrapiPageTeaser,
+} from '../types';
 
 const STRAPI_ENDPOINT = process.env.STRAPI_ENDPOINT;
 
@@ -27,7 +33,7 @@ interface FetchContentOptions {
  * Fetches an array of elements from Strapi CMS.
  */
 export async function fetchContentList<
-  T extends BaStrapiPage | BaStrapiSnippet
+  T extends BaStrapiPage | BaStrapiSnippet | StrapiPageTeaser
 >(contentType: StrapiContentType, options: FetchContentOptions): Promise<T[]> {
   let requestPath = `/${contentType}`;
   // Only fetch content set to public when building the public version of Barista
@@ -41,7 +47,7 @@ export async function fetchContentList<
  * Fetches a single item from Strapi CMS.
  */
 export async function fetchContentItemById<
-  T extends BaStrapiPage | BaStrapiSnippet
+  T extends BaStrapiPage | BaStrapiSnippet | StrapiPageTeaser | StrapiCTA
 >(
   contentType: StrapiContentType,
   id: string,
@@ -79,8 +85,8 @@ async function fetchContent(requestPath: string): Promise<any> {
       });
 
       res.on('end', () => {
-        const jsonRes = JSON.parse(fullData);
-        if (jsonRes.length > 0) {
+        if (fullData.length > 0) {
+          const jsonRes = JSON.parse(fullData);
           resolve(jsonRes);
         } else {
           reject(`No items for ${options.path} could be found.`);
