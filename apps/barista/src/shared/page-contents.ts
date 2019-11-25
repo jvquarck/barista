@@ -58,6 +58,7 @@ export interface BaOverviewPageSectionItem {
   badge: string[];
   link: string;
   description: string;
+  order?: number;
 }
 
 export interface BaOverviewPageSection {

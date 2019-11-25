@@ -66,6 +66,7 @@ function setMetadataDefaults(baristaMetadata: any): BaPageContent {
     related: baristaMetadata.related,
     contributors: baristaMetadata.contributors,
     category: 'component',
+    order: baristaMetadata.order,
   };
 
   return metadataWithDefaults;

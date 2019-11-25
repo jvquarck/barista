@@ -78,6 +78,7 @@ function getOverviewSectionItem(
     category: category,
     link: filepath,
     badge: filecontent.properties,
+    order: filecontent.order,
   };
 }
 
@@ -170,6 +171,24 @@ async function buildOverviewPages(): Promise<void[]> {
               getOverviewSectionItem(content, 'Component', filepath),
             );
           }
+        }
+      }
+
+      for (const section of componentOverview.sections) {
+        if (section.title === 'Documentation') {
+          const y = section.items;
+          y.sort(function (a: BaOverviewPageSectionItem, b: BaOverviewPageSectionItem): number {
+            if (a.order && b.order) {
+              return a.order - b.order;
+            }
+
+            if (b.order) {
+              return 1;
+            }
+
+            return -1;
+          });
+          section.items = y;
         }
       }
 
