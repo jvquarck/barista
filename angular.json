@@ -38,7 +38,7 @@
               {
                 "glob": "**/*",
                 "input": "node_modules/@dynatrace/barista-fonts/fonts/",
-                "output": "/assets/fonts"
+                "output": "/fonts"
               }
             ],
             "styles": ["apps/dev/src/main.scss", "components/style/index.scss"]
