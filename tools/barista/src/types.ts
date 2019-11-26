@@ -57,24 +57,24 @@ export interface BaContributor {
 }
 
 /** Base interface for Strapi content types */
-interface BaStrapiBase {
+export interface BaStrapiBase {
   id: number;
   created_at: number;
   updated_at: number;
 }
 
 /** Strapi content type with a name */
-interface BaStrapiNamedEntity extends BaStrapiBase {
+export interface BaStrapiNamedEntity extends BaStrapiBase {
   name: string;
 }
 
 /** Strapi page category */
-interface BaStrapiCategory extends BaStrapiBase {
+export interface BaStrapiCategory extends BaStrapiBase {
   title: string;
 }
 
 /** Strapi contributor (UX/Dev support) */
-interface BaStrapiContributor extends BaStrapiNamedEntity {
+export interface BaStrapiContributor extends BaStrapiNamedEntity {
   githubuser: string;
   developer: boolean;
 }
